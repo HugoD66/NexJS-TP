@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "slug": "nes",
+    "name": "Nintendo Entertainment System",
+    "category": "Console",
+    "description": "La console qui a sauvé l'industrie du jeu vidéo en 1983. La NES a introduit des franchises légendaires comme Mario et Zelda, redéfinissant le jeu vidéo à domicile pour toute une génération.",
+    "specs": "CPU : MOS 6502 @ 1.79 MHz — RAM : 2 Ko — Résolution : 256×240 — Palette : 54 couleurs — Sortie : RF / Composite",
+    "price": 129.99,
+    "image": "/products/nes.png"
+  },
+  {
+    "id": 2,
+    "slug": "snes",
+    "name": "Super Nintendo",
+    "category": "Console",
+    "description": "La Super Nintendo est la console 16 bits emblématique de Nintendo, sortie en 1990. Elle a hébergé certains des meilleurs jeux de tous les temps grâce à son processeur graphique avancé et son chip Mode 7.",
+    "specs": "CPU : Ricoh 5A22 @ 3.58 MHz — RAM : 128 Ko — Résolution : 256×224 — Palette : 32 768 couleurs — Sortie : Composite / S-Vidéo",
+    "price": 149.99,
+    "image": "/products/snes.png"
+  },
+  {
+    "id": 3,
+    "slug": "nintendo-64",
+    "name": "Nintendo 64",
+    "category": "Console",
+    "description": "Première console 64 bits de Nintendo, la N64 a révolutionné le jeu vidéo en 3D avec Super Mario 64 et Ocarina of Time. Son contrôleur iconique à trois branches reste gravé dans les mémoires.",
+    "specs": "CPU : NEC VR4300 @ 93.75 MHz — RAM : 4 Mo — GPU : SGI RCP @ 62.5 MHz — Cartouches ROM 64 bits — Sortie : Composite / S-Vidéo",
+    "price": 119.99,
+    "image": "/products/nintendo-64.png"
+  },
+  {
+    "id": 4,
+    "slug": "game-boy-color",
+    "name": "Game Boy Color",
+    "category": "Console",
+    "description": "Évolution de la Game Boy originale, la Game Boy Color apporte enfin la couleur à la handheld légendaire de Nintendo. Compatible avec les cartouches Game Boy, elle a accompagné toute une génération dans ses aventures Pokémon.",
+    "specs": "CPU : Sharp LR35902 @ 8 MHz — RAM : 32 Ko — Écran : 160×144 px, 56 couleurs — Autonomie : 10–15h — Piles : 2 × AA",
+    "price": 89.99,
+    "image": "/products/game-boy-color.png"
+  },
+  {
+    "id": 5,
+    "slug": "sega-mega-drive",
+    "name": "Sega Mega Drive",
+    "category": "Console",
+    "description": "La Mega Drive est la console 16 bits de Sega qui a osé défier Nintendo. Avec Sonic, Streets of Rage et Mortal Kombat, elle a incarné une identité plus mature et rock'n'roll dans le monde du jeu vidéo.",
+    "specs": "CPU : Motorola 68000 @ 7.67 MHz — RAM : 64 Ko — Palette : 512 couleurs (64 affichées) — Canaux audio : 6 — Sortie : RF / Composite",
+    "price": 109.99,
+    "image": "/products/sega-mega-drive.jpg"
+  },
+  {
+    "id": 6,
+    "slug": "playstation-1",
+    "name": "PlayStation 1",
+    "category": "Console",
+    "description": "La PlayStation originale de Sony a changé l'industrie du jeu vidéo en popularisant le support CD-ROM et la 3D polygonale. Elle a donné naissance à des franchises cultes comme Final Fantasy VII, Metal Gear Solid et Resident Evil.",
+    "specs": "CPU : MIPS R3000A @ 33.87 MHz — RAM : 2 Mo — GPU : 1 Mo VRAM — Support : CD-ROM — Sortie : Composite / RCA",
+    "price": 99.99,
+    "image": "/products/playstation-1.png"
+  },
+  {
+    "id": 7,
+    "slug": "super-mario-world",
+    "name": "Super Mario World",
+    "category": "Jeu",
+    "description": "Chef-d'œuvre absolu de la Super Nintendo, Super Mario World introduit Yoshi et propose un monde ouvert riche en secrets. Considéré comme l'un des meilleurs jeux de plateforme jamais créés.",
+    "specs": "Plateforme : Super Nintendo — Année : 1990 — Genre : Plateforme — Joueurs : 1 — Cartouche : 512 Ko",
+    "price": 34.99,
+    "image": "/products/super-mario-world.png"
+  },
+  {
+    "id": 8,
+    "slug": "zelda-link-to-the-past",
+    "name": "Zelda : A Link to the Past",
+    "category": "Jeu",
+    "description": "Troisième opus de la saga Zelda et premier en 2D sur SNES, A Link to the Past définit les codes du jeu d'action-aventure. Son monde sombre et son gameplay en font un incontournable absolu.",
+    "specs": "Plateforme : Super Nintendo — Année : 1991 — Genre : Action-Aventure — Joueurs : 1 — Cartouche : 1 Mo",
+    "price": 39.99,
+    "image": "/products/zelda-link-to-the-past.jpg"
+  },
+  {
+    "id": 9,
+    "slug": "sonic-the-hedgehog",
+    "name": "Sonic The Hedgehog",
+    "category": "Jeu",
+    "description": "La mascotte bleue de Sega dans son premier jeu sur Mega Drive. Sonic révolutionne le jeu de plateforme avec sa vitesse effrénée et son attitude rock, incarnant l'âme rebelle de la Mega Drive.",
+    "specs": "Plateforme : Sega Mega Drive — Année : 1991 — Genre : Plateforme — Joueurs : 1 — Cartouche : 512 Ko",
+    "price": 24.99,
+    "image": "/products/sonic-the-hedgehog.png"
+  },
+  {
+    "id": 10,
+    "slug": "pokemon-rouge",
+    "name": "Pokémon Rouge",
+    "category": "Jeu",
+    "description": "Le jeu qui a déclenché une révolution mondiale. Pokémon Rouge invite les joueurs à capturer et entraîner des créatures dans la région de Kanto. Un phénomène culturel qui n'a jamais cessé depuis 1996.",
+    "specs": "Plateforme : Game Boy — Année : 1996 — Genre : RPG — Joueurs : 1-2 (Lien) — Cartouche : 1 Mo",
+    "price": 29.99,
+    "image": "/products/pokemon-rouge.jpg"
+  },
+  {
+    "id": 11,
+    "slug": "crash-bandicoot",
+    "name": "Crash Bandicoot",
+    "category": "Jeu",
+    "description": "La réponse de Sony à Mario et Sonic, Crash Bandicoot est un jeu de plateforme 3D spectaculaire sur PlayStation 1. Son gameplay précis et ses niveaux inventifs en font la mascotte officieuse de la PS1.",
+    "specs": "Plateforme : PlayStation 1 — Année : 1996 — Genre : Plateforme 3D — Joueurs : 1 — Support : CD-ROM",
+    "price": 19.99,
+    "image": "/products/crash-bandicoot.png"
+  },
+  {
+    "id": 12,
+    "slug": "manette-retro-usb",
+    "name": "Manette Rétro USB",
+    "category": "Accessoire",
+    "description": "Réplique fidèle des manettes SNES et NES adaptée en USB. Compatible PC, Mac, Raspberry Pi et émulateurs. La sensation authentique des boutons d'origine dans un format moderne.",
+    "specs": "Connexion : USB-A — Compatibilité : Windows / macOS / Linux — Longueur câble : 1.8m — Boutons : 8 — D-pad : 4 directions",
+    "price": 14.99,
+    "image": "/products/manette-retro-usb.png"
+  },
+  {
+    "id": 13,
+    "slug": "cartouche-collection",
+    "name": "Cartouche de Collection",
+    "category": "Accessoire",
+    "description": "Cartouches originales en état de collection, nettoyées et testées. Chaque cartouche est accompagnée d'un certificat d'authenticité. Idéal pour les collectionneurs exigeants.",
+    "specs": "État : Très bon — Testée et fonctionnelle — Nettoyée aux contacts — Certificat d'authenticité inclus — Compatible console d'origine",
+    "price": 49.99,
+    "image": "/products/cartouche-collection.jpg"
+  },
+  {
+    "id": 14,
+    "slug": "carte-memoire-playstation",
+    "name": "Carte Mémoire PlayStation",
+    "category": "Accessoire",
+    "description": "Carte mémoire officielle Sony pour PlayStation 1. Indispensable pour sauvegarder vos parties sur les RPGs épiques comme Final Fantasy VII ou les aventures Metal Gear Solid.",
+    "specs": "Capacité : 1 Mo (15 blocs) — Format : Memory Card PS1 — Compatibilité : PS1 / PS2 — Couleur : Gris anthracite — Origine : Sony officiel",
+    "price": 12.99,
+    "image": "/products/carte-memoire-playstation.png"
+  },
+  {
+    "id": 15,
+    "slug": "adaptateur-hdmi-retro",
+    "name": "Adaptateur HDMI Rétro",
+    "category": "Accessoire",
+    "description": "Connectez vos consoles rétro à vos télévisions modernes sans latence. Cet adaptateur prend en charge la NES, SNES, N64, Mega Drive et PS1, avec une sortie HDMI 720p upscalée.",
+    "specs": "Entrée : Composite / S-Vidéo — Sortie : HDMI 720p — Latence : < 1ms — Alimentation : USB — Compatibilité : NES / SNES / N64 / PS1 / Mega Drive",
+    "price": 29.99,
+    "image": "/products/adaptateur-hdmi-retro.jpg"
+  }
+]

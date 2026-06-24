@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* ─── Design tokens ─────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-dark:     #0D0D1A;
+  --bg-surface:  #12122A;
+  --bg-elevated: #1A1A3E;
+
+  /* Accents */
+  --arcade-purple: #7B2FFF;
+  --neon-blue:     #00D4FF;
+  --neon-pink:     #FF2D78;
+
+  /* Text */
+  --text-primary: #F0F0FF;
+  --text-muted:   #8888AA;
+
+  /* Glows */
+  --glow-purple: 0 0 10px #7B2FFF, 0 0 30px rgba(123, 47, 255, 0.25);
+  --glow-blue:   0 0 10px #00D4FF, 0 0 30px rgba(0, 212, 255, 0.25);
+  --glow-pink:   0 0 10px #FF2D78, 0 0 30px rgba(255, 45, 120, 0.25);
+
+  /* Borders */
+  --border-subtle: 1px solid var(--bg-elevated);
+  --border-accent: 1px solid var(--arcade-purple);
+
+  /* Spacing */
+  --container-max: 1200px;
+  --container-padding: 2rem;
+}
+
+/* ─── Reset / Base ──────────────────────────────────────── */
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+}

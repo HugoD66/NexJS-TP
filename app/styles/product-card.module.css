@@ -1,0 +1,72 @@
+.card {
+  background: var(--bg-surface);
+  border: var(--border-subtle);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 200ms, box-shadow 200ms;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+.card:hover {
+  border-color: var(--arcade-purple);
+  box-shadow: var(--glow-purple);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+
+.imageWrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(123, 47, 255, 0.08) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: rgba(13, 13, 26, 0.85);
+  color: var(--text-muted);
+  font-size: 0.6rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.content {
+  padding: 1rem;
+}
+
+.name {
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.03em;
+}
+
+.price {
+  color: var(--neon-pink);
+  font-size: 1rem;
+  font-weight: bold;
+}

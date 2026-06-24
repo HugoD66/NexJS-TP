@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import "./globals.css";
+import "./styles/globals.css";
 import Navbar from "./_components/navbar";
 import Footer from "./_components/footer";
 
@@ -37,7 +37,7 @@ export default function RootLayout({
         </div>
         <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1" style={{ paddingBottom: "4rem" }}>{children}</main>
           <Footer />
         </div>
       </body>
