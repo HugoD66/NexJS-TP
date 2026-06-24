@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getProductBySlug, getProductsByCategory } from "@/lib/products";
+import { prisma } from "@/lib/prisma";
 import { BLUR_PLACEHOLDER } from "@/lib/blur-placeholder";
 import ProductCard from "@/app/_components/product-card";
 
@@ -10,13 +10,15 @@ type Props = {
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
 
+  const product = await prisma.product.findUnique({ where: { slug } });
   if (!product) notFound();
 
-  const related = getProductsByCategory(product.category)
-    .filter(p => p.slug !== slug)
-    .slice(0, 4);
+  const related = await prisma.product.findMany({
+    where: { category: product.category, slug: { not: slug } },
+    take: 4,
+    orderBy: { id: "asc" },
+  });
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "3rem 2rem" }}>

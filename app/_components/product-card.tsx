@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Product } from "@/lib/products";
+import type { Product } from "@/lib/generated/prisma/client";
 import { BLUR_PLACEHOLDER } from "@/lib/blur-placeholder";
 import styles from "@/app/styles/product-card.module.css";
 

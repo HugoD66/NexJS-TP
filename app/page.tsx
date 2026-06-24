@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getProducts } from "@/lib/products";
+import { prisma } from "@/lib/prisma";
 import ProductCard from "./_components/product-card";
 import styles from "./styles/home.module.css";
 
@@ -9,7 +9,8 @@ type Props = {
 
 export default async function Home({ searchParams }: Props) {
   const { category } = await searchParams;
-  const allProducts = getProducts();
+
+  const allProducts = await prisma.product.findMany({ orderBy: { id: "asc" } });
 
   const counts = {
     Console:    allProducts.filter(p => p.category === "Console").length,
@@ -31,31 +32,19 @@ export default async function Home({ searchParams }: Props) {
         <p className={styles.tagline}>Votre destination rétro gaming depuis 1983</p>
 
         <div className={styles.stats}>
-          <Link
-            href="/"
-            className={`${styles.stat} ${!isFiltered ? styles.statActive : ""}`}
-          >
+          <Link href="/" className={`${styles.stat} ${!isFiltered ? styles.statActive : ""}`}>
             <span className={styles.statValue}>{allProducts.length}</span>
             <span className={styles.statLabel}>Tout</span>
           </Link>
-          <Link
-            href="?category=Console"
-            className={`${styles.stat} ${category === "Console" ? styles.statActive : ""}`}
-          >
+          <Link href="?category=Console" className={`${styles.stat} ${category === "Console" ? styles.statActive : ""}`}>
             <span className={styles.statValue}>{counts.Console}</span>
             <span className={styles.statLabel}>Consoles</span>
           </Link>
-          <Link
-            href="?category=Jeu"
-            className={`${styles.stat} ${category === "Jeu" ? styles.statActive : ""}`}
-          >
+          <Link href="?category=Jeu" className={`${styles.stat} ${category === "Jeu" ? styles.statActive : ""}`}>
             <span className={styles.statValue}>{counts.Jeu}</span>
             <span className={styles.statLabel}>Jeux</span>
           </Link>
-          <Link
-            href="?category=Accessoire"
-            className={`${styles.stat} ${category === "Accessoire" ? styles.statActive : ""}`}
-          >
+          <Link href="?category=Accessoire" className={`${styles.stat} ${category === "Accessoire" ? styles.statActive : ""}`}>
             <span className={styles.statValue}>{counts.Accessoire}</span>
             <span className={styles.statLabel}>Accessoires</span>
           </Link>
@@ -66,10 +55,7 @@ export default async function Home({ searchParams }: Props) {
       <div className={styles.container}>
         <div className={styles.grid}>
           {filtered.map((product, i) => (
-            <div
-              key={product.id}
-              className={i === 0 && !isFiltered ? styles.featuredSlot : ""}
-            >
+            <div key={product.id} className={i === 0 && !isFiltered ? styles.featuredSlot : ""}>
               <ProductCard product={product} featured={i === 0 && !isFiltered} />
             </div>
           ))}
