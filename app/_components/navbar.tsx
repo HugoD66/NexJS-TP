@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "./breadcrumb";
+import CartSummary from "./cart-summary";
 
 export default function Navbar() {
   return (
@@ -84,19 +85,7 @@ export default function Navbar() {
           }}
         >
           <li>
-            <Link
-              href="/cart"
-              aria-label="Panier"
-              style={{
-                color: "var(--text-muted)",
-                textDecoration: "none",
-                fontSize: "1.1rem",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              🛒
-            </Link>
+            <CartSummary />
           </li>
         </ul>
       </nav>

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { BLUR_PLACEHOLDER } from "@/lib/blur-placeholder";
 import ProductCard from "@/app/_components/product-card";
+import AddToCartButton from "@/app/_components/add-to-cart-button";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -107,22 +108,7 @@ export default async function ProductPage({ params }: Props) {
             </p>
           </div>
 
-          <button
-            style={{
-              background: "var(--arcade-purple)",
-              color: "white",
-              border: "none",
-              padding: "1rem 2rem",
-              borderRadius: "4px",
-              fontSize: "0.75rem",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              cursor: "pointer",
-              width: "100%",
-            }}
-          >
-            Ajouter au panier
-          </button>
+          <AddToCartButton productId={product.id} />
         </div>
       </div>
 

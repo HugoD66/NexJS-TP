@@ -4,6 +4,7 @@ import Image from "next/image";
 import "./styles/globals.css";
 import Navbar from "./_components/navbar";
 import Footer from "./_components/footer";
+import Providers from "./_components/providers";
 
 const pressStart2P = localFont({
   src: "./fonts/PressStart2P.woff2",
@@ -49,9 +50,11 @@ export default function RootLayout({
           />
         </div>
         <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-          <Navbar />
-          <main className="flex-1" style={{ paddingBottom: "4rem" }}>{children}</main>
-          <Footer />
+          <Providers>
+            <Navbar />
+            <main className="flex-1" style={{ paddingBottom: "4rem" }}>{children}</main>
+            <Footer />
+          </Providers>
         </div>
       </body>
     </html>
