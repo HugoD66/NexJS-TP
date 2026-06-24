@@ -1,0 +1,137 @@
+/* ====== HERO ====== */
+.hero {
+  text-align: center;
+  padding: 2rem 2rem 1.5rem;
+}
+
+.glitch {
+  display: block;
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  color: var(--arcade-purple);
+  text-shadow:
+    0 0 20px var(--arcade-purple),
+    0 0 60px rgba(123, 47, 255, 0.3);
+  animation: glitch 6s infinite;
+  margin-bottom: 0.75rem;
+}
+
+@keyframes glitch {
+  0%, 85%, 100% {
+    text-shadow:
+      0 0 20px var(--arcade-purple),
+      0 0 60px rgba(123, 47, 255, 0.3);
+    transform: none;
+  }
+  87% {
+    text-shadow: -3px 0 var(--neon-pink), 3px 0 var(--neon-blue);
+    transform: translateX(2px);
+  }
+  89% {
+    text-shadow: 3px 0 var(--neon-pink), -3px 0 var(--neon-blue);
+    transform: translateX(-2px);
+  }
+  91% {
+    text-shadow: -2px 0 var(--neon-pink), 2px 0 var(--neon-blue);
+    transform: translateX(1px);
+  }
+  93% {
+    text-shadow:
+      0 0 20px var(--arcade-purple),
+      0 0 60px rgba(123, 47, 255, 0.3);
+    transform: none;
+  }
+}
+
+.tagline {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+/* ====== STATS / FILTRES ====== */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 2rem;
+  border: 1px solid rgba(123, 47, 255, 0.3);
+  border-radius: 4px;
+  background: rgba(18, 18, 42, 0.92);
+  min-width: 100px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 200ms, box-shadow 200ms, background 200ms;
+}
+
+.stat:hover {
+  border-color: var(--arcade-purple);
+  box-shadow: var(--glow-purple);
+}
+
+.statActive {
+  border-color: var(--arcade-purple);
+  background: rgba(50, 18, 100, 0.92);
+  box-shadow: var(--glow-purple);
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--neon-blue);
+  text-shadow: var(--glow-blue);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.statLabel {
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ====== GRID ====== */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 2rem var(--container-padding) 5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.featuredSlot {
+  grid-column: span 2;
+}
+
+@media (max-width: 640px) {
+  .featuredSlot {
+    grid-column: span 1;
+  }
+
+  .stats {
+    gap: 0.75rem;
+  }
+
+  .stat {
+    padding: 0.75rem 1rem;
+    min-width: 75px;
+  }
+
+  .statValue {
+    font-size: 1.5rem;
+  }
+}

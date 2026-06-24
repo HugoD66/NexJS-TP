@@ -1,10 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/products", label: "Products" },
-];
+import Breadcrumb from "./breadcrumb";
 
 export default function Navbar() {
   return (
@@ -22,40 +18,60 @@ export default function Navbar() {
         style={{
           maxWidth: "1200px",
           margin: "0 auto",
-          padding: "1rem 2rem",
+          padding: "0.75rem 2rem",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: "1.5rem",
         }}
       >
-        <Link
-          href="/"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.75rem",
-            textDecoration: "none",
-          }}
-        >
-          <Image
-            src="/pixel-palace-icon.png"
-            alt="Pixel Palace"
-            width={36}
-            height={36}
-          />
-          <span
+        {/* Gauche : logo + fil d'ariane */}
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", minWidth: 0 }}>
+          <Link
+            href="/"
             style={{
-              color: "var(--arcade-purple)",
-              fontSize: "1rem",
-              fontWeight: "bold",
-              letterSpacing: "0.05em",
-              textShadow: "0 0 8px var(--arcade-purple)",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              textDecoration: "none",
+              flexShrink: 0,
             }}
           >
-            PIXEL PALACE
-          </span>
-        </Link>
+            <Image
+              src="/pixel-palace-icon.png"
+              alt="Pixel Palace"
+              width={32}
+              height={32}
+            />
+            <span
+              style={{
+                color: "var(--arcade-purple)",
+                fontSize: "0.85rem",
+                fontWeight: "bold",
+                letterSpacing: "0.05em",
+                textShadow: "0 0 8px var(--arcade-purple)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              PIXEL PALACE
+            </span>
+          </Link>
 
+          {/* séparateur vertical */}
+          <span
+            aria-hidden
+            style={{
+              width: "1px",
+              height: "20px",
+              background: "rgba(123, 47, 255, 0.4)",
+              flexShrink: 0,
+            }}
+          />
+
+          <Breadcrumb />
+        </div>
+
+        {/* Droite : liens + panier */}
         <ul
           style={{
             display: "flex",
@@ -64,25 +80,9 @@ export default function Navbar() {
             margin: 0,
             padding: 0,
             alignItems: "center",
+            flexShrink: 0,
           }}
         >
-          {links.map(({ href, label }) => (
-            <li key={href}>
-              <Link
-                href={href}
-                style={{
-                  color: "var(--text-muted)",
-                  textDecoration: "none",
-                  fontSize: "0.75rem",
-                  letterSpacing: "0.05em",
-                  transition: "color 200ms",
-                }}
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
-
           <li>
             <Link
               href="/cart"
@@ -90,10 +90,9 @@ export default function Navbar() {
               style={{
                 color: "var(--text-muted)",
                 textDecoration: "none",
-                fontSize: "1.2rem",
+                fontSize: "1.1rem",
                 display: "flex",
                 alignItems: "center",
-                gap: "0.4rem",
               }}
             >
               🛒

@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/lib/products";
+import { getProductBySlug, getProductsByCategory } from "@/lib/products";
 import { BLUR_PLACEHOLDER } from "@/lib/blur-placeholder";
+import ProductCard from "@/app/_components/product-card";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -13,8 +14,13 @@ export default async function ProductPage({ params }: Props) {
 
   if (!product) notFound();
 
+  const related = getProductsByCategory(product.category)
+    .filter(p => p.slug !== slug)
+    .slice(0, 4);
+
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "3rem 2rem" }}>
+      {/* Fiche produit */}
       <div
         style={{
           display: "grid",
@@ -67,13 +73,7 @@ export default async function ProductPage({ params }: Props) {
             </h1>
           </div>
 
-          <p
-            style={{
-              color: "var(--neon-pink)",
-              fontSize: "2rem",
-              fontWeight: "bold",
-            }}
-          >
+          <p style={{ color: "var(--neon-pink)", fontSize: "2rem", fontWeight: "bold" }}>
             {product.price.toFixed(2)} €
           </p>
 
@@ -123,6 +123,51 @@ export default async function ProductPage({ params }: Props) {
           </button>
         </div>
       </div>
+
+      {/* Nos clients aiment aussi */}
+      {related.length > 0 && (
+        <section style={{ marginTop: "4rem" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+              marginBottom: "1.5rem",
+            }}
+          >
+            <span
+              style={{
+                color: "var(--text-muted)",
+                fontSize: "0.6rem",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Nos clients aiment aussi
+            </span>
+            <span
+              style={{
+                flex: 1,
+                height: "1px",
+                background: "linear-gradient(to right, rgba(123,47,255,0.4), transparent)",
+              }}
+            />
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "1rem",
+            }}
+          >
+            {related.map(p => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
