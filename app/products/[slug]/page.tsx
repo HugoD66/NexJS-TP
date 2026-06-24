@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { BLUR_PLACEHOLDER } from "@/lib/blur-placeholder";
@@ -7,10 +8,13 @@ import AddToCartButton from "@/app/_components/add-to-cart-button";
 
 type Props = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ tab?: string }>;
 };
 
-export default async function ProductPage({ params }: Props) {
+export default async function ProductPage({ params, searchParams }: Props) {
   const { slug } = await params;
+  const { tab } = await searchParams;
+  const activeTab = tab === "specs" ? "specs" : "description";
 
   const product = await prisma.product.findUnique({ where: { slug } });
   if (!product) notFound();
@@ -20,6 +24,29 @@ export default async function ProductPage({ params }: Props) {
     take: 4,
     orderBy: { id: "asc" },
   });
+
+  const tabLink = (value: string, label: string) => {
+    const isActive = activeTab === value;
+    return (
+      <Link
+        href={`/products/${slug}?tab=${value}`}
+        style={{
+          padding: "0.5rem 1.25rem",
+          fontSize: "0.6rem",
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          textDecoration: "none",
+          borderBottom: isActive
+            ? "2px solid var(--arcade-purple)"
+            : "2px solid transparent",
+          color: isActive ? "var(--arcade-purple)" : "var(--text-muted)",
+          transition: "color 150ms, border-color 150ms",
+        }}
+      >
+        {label}
+      </Link>
+    );
+  };
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "3rem 2rem" }}>
@@ -80,32 +107,28 @@ export default async function ProductPage({ params }: Props) {
             {product.price.toFixed(2)} €
           </p>
 
-          <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", lineHeight: "1.7" }}>
-            {product.description}
-          </p>
-
-          <div
-            style={{
-              background: "var(--bg-surface)",
-              border: "1px solid var(--bg-elevated)",
-              borderRadius: "4px",
-              padding: "1rem",
-            }}
-          >
-            <p
+          {/* Onglets */}
+          <div>
+            <div
               style={{
-                color: "var(--text-muted)",
-                fontSize: "0.7rem",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: "0.5rem",
+                display: "flex",
+                borderBottom: "1px solid var(--bg-elevated)",
+                marginBottom: "1rem",
               }}
             >
-              Spécifications
-            </p>
-            <p style={{ color: "var(--text-primary)", fontSize: "0.85rem", lineHeight: "1.8" }}>
-              {product.specs}
-            </p>
+              {tabLink("description", "Description")}
+              {tabLink("specs", "Spécifications")}
+            </div>
+
+            {activeTab === "description" ? (
+              <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", lineHeight: "1.7", margin: 0 }}>
+                {product.description}
+              </p>
+            ) : (
+              <p style={{ color: "var(--text-primary)", fontSize: "0.85rem", lineHeight: "1.8", margin: 0 }}>
+                {product.specs}
+              </p>
+            )}
           </div>
 
           <AddToCartButton productId={product.id} />

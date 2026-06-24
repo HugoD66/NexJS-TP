@@ -1,36 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pixel Palace
 
-## Getting Started
+Boutique e-commerce rétro gaming — TP Next.js Master 2.
 
-First, run the development server:
+## Stack
+
+- **Next.js** 16.2.9 — App Router
+- **React** 19 / **TypeScript** 5
+- **Tailwind CSS** v4
+- **Prisma** 7.8.0 + **SQLite**
+- **pnpm** comme package manager
+
+---
+
+## Prérequis
+
+**Node 22 obligatoire** — Node 26 est incompatible avec `better-sqlite3`.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+nvm install 22
+nvm use 22
+node -v  # v22.x.x
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+```
 
-## Learn More
+Si `better-sqlite3` remonte une erreur de version native après un changement de Node :
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm rebuild better-sqlite3
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Variables d'environnement
 
-## Deploy on Vercel
+Créer un fichier `.env` à la racine :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```env
+DATABASE_URL="file:./dev.db"
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Base de données
+
+### Appliquer les migrations
+
+```bash
+pnpm migrate
+# équivalent : pnpm exec prisma migrate dev
+```
+
+### Peupler la base (seed)
+
+```bash
+pnpm seed
+```
+
+Insère les 15 produits définis dans `lib/products.json` (6 consoles, 5 jeux, 4 accessoires).
+
+### Régénérer le client Prisma
+
+```bash
+pnpm exec prisma generate
+```
+
+### Interface visuelle de la DB
+
+```bash
+pnpm exec prisma studio
+```
+
+---
+
+## Lancer le projet
+
+```bash
+pnpm dev
+```
+
+Ouvre [http://localhost:3000](http://localhost:3000).
+
+---
+
+## Scripts disponibles
+
+| Commande | Description |
+|---|---|
+| `pnpm dev` | Serveur de développement (Turbopack) |
+| `pnpm build` | Build de production |
+| `pnpm start` | Serveur de production |
+| `pnpm seed` | Peuple la base de données |
+| `pnpm migrate` | Applique les migrations Prisma |
+| `pnpm lint` | Lint ESLint |
+
+---
+
+## Routes principales
+
+| URL | Description |
+|---|---|
+| `/` | Accueil — catalogue avec filtres par catégorie |
+| `/products` | Liste complète des produits |
+| `/products/[slug]` | Fiche produit avec onglets description / spécifications |
+| `/admin/products` | Interface d'administration (layout distinct) |
+| `/api/products` | Endpoint JSON — liste des produits |
