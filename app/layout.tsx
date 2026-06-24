@@ -1,8 +1,21 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import Image from "next/image";
 import "./styles/globals.css";
 import Navbar from "./_components/navbar";
 import Footer from "./_components/footer";
+
+const pressStart2P = localFont({
+  src: "./fonts/PressStart2P.woff2",
+  variable: "--font-press-start",
+  display: "swap",
+});
+
+const vt323 = localFont({
+  src: "./fonts/VT323.woff2",
+  variable: "--font-vt323",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Pixel Palace",
@@ -16,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="h-full">
-      <body className="min-h-full flex flex-col antialiased">
+      <body className={`min-h-full flex flex-col antialiased ${pressStart2P.variable} ${vt323.variable}`}>
         <div style={{
           position: "fixed",
           top: "50%",

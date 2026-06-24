@@ -34,4 +34,10 @@
 body {
   background-color: var(--bg-dark);
   color: var(--text-primary);
+  font-family: var(--font-vt323), monospace;
+}
+
+h1, h2, h3,
+.font-pixel {
+  font-family: var(--font-press-start), monospace;
 }
