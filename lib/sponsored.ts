@@ -12,12 +12,17 @@ export type SponsoredProduct = {
 };
 
 async function gql<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
+  const start = performance.now();
+
   const res = await fetch(ENDPOINT, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables }),
     next: { revalidate: 3600, tags: ["sponsored-products"] },
   });
+
+  console.log(`[mockShop] fetch products ${(performance.now() - start).toFixed(0)}ms`);
+
   const { data } = await res.json();
   return data;
 }
