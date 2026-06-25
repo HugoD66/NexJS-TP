@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getSponsoredProducts } from "@/lib/sponsored";
+import RefreshSponsoredButton from "./refresh-sponsored-button";
 
 export default async function SponsoredProducts() {
   const products = await getSponsoredProducts(4);
@@ -35,6 +36,7 @@ export default async function SponsoredProducts() {
             background: "linear-gradient(to right, rgba(255,20,147,0.4), transparent)",
           }}
         />
+        <RefreshSponsoredButton />
       </div>
 
       <div
