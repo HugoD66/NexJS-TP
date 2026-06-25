@@ -7,6 +7,11 @@ import ProductCard from "@/app/_components/product-card";
 import AddToCartButton from "@/app/_components/add-to-cart-button";
 import ProductTabs from "./_components/product-tabs";
 
+export async function generateStaticParams() {
+  const products = await prisma.product.findMany({ select: { slug: true } });
+  return products.map(({ slug }) => ({ slug }));
+}
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
