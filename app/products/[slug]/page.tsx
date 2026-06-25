@@ -4,6 +4,7 @@ import ProductDetail from "./_components/product-detail";
 import ProductDetailSkeleton from "./_components/product-detail-skeleton";
 import SimilarProducts from "./_components/similar-products";
 import SimilarSkeleton from "./_components/similar-skeleton";
+import SponsoredProducts from "@/app/_components/sponsored-products";
 
 export async function generateStaticParams() {
   const products = await prisma.product.findMany({ select: { slug: true } });
@@ -23,6 +24,9 @@ export default async function ProductPage({ params }: Props) {
         <ProductDetail slug={slug} />
         <Suspense fallback={<SimilarSkeleton />}>
           <SimilarProducts slug={slug} />
+        </Suspense>
+        <Suspense fallback={null}>
+          <SponsoredProducts />
         </Suspense>
       </Suspense>
     </div>
