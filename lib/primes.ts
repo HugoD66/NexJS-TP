@@ -1,3 +1,5 @@
+import { unstable_cache } from "next/cache";
+
 export function computePrimes(limit: number): number[] {
   const sieve = new Uint8Array(limit + 1).fill(1);
   sieve[0] = 0;
@@ -15,3 +17,9 @@ export function computePrimes(limit: number): number[] {
   }
   return primes;
 }
+
+export const getCachedPrimes = unstable_cache(
+  async (limit: number) => computePrimes(limit),
+  ["primes"],
+  { revalidate: 3600 }
+);
