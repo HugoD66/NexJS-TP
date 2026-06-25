@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "./breadcrumb";
@@ -85,7 +86,9 @@ export default function Navbar() {
           }}
         >
           <li>
+            <Suspense fallback={<span style={{ fontSize: "1.1rem" }}>🛒</span>}>
             <CartSummary />
+          </Suspense>
           </li>
         </ul>
       </nav>
