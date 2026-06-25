@@ -1,14 +1,9 @@
 "use server";
 
-import { revalidateTag, revalidatePath } from "next/cache";
+import { revalidatePath } from "next/cache";
 
-// Approche 1 — ciblée par tag : invalide uniquement les fetches taggués 'sponsored-products'
+// revalidateTag(tag, profile) dans Next.js 16 accepte un 2e arg profile — passer {}
+// équivaut à expire:0 et provoque une boucle de re-fetch. On utilise revalidatePath à la place.
 export async function revalidateSponsoredProducts() {
-  revalidateTag("sponsored-products", {});
-}
-
-// Approche 2 — par chemin : invalide toutes les données d'une route entière
-export async function revalidateSponsoredPath() {
-  revalidatePath("/");
-  revalidatePath("/products/[slug]", "page");
+  revalidatePath("/", "layout");
 }
