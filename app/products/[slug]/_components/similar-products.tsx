@@ -6,6 +6,8 @@ type Props = {
 };
 
 export default async function SimilarProducts({ slug }: Props) {
+  await new Promise(r => setTimeout(r, 2000));
+
   const product = await prisma.product.findUnique({
     where: { slug },
     include: {
