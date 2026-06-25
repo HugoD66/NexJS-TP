@@ -1,10 +1,16 @@
-"use client";
-
 import Link from "next/link";
-import { useCart } from "@/app/_context/cart-context";
+import { cookies } from "next/headers";
+import { prisma } from "@/lib/prisma";
 
-export default function CartSummary() {
-  const { totalItems } = useCart();
+export default async function CartSummary() {
+  const cookieStore = await cookies();
+  const cartId = cookieStore.get("cartId")?.value;
+
+  const totalItems = cartId
+    ? await prisma.cartItem
+        .aggregate({ where: { cartId }, _sum: { quantity: true } })
+        .then(r => r._sum.quantity ?? 0)
+    : 0;
 
   return (
     <Link
