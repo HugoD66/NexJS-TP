@@ -3,9 +3,9 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { BLUR_PLACEHOLDER } from "@/lib/blur-placeholder";
-import ProductCard from "@/app/_components/product-card";
 import AddToCartButton from "@/app/_components/add-to-cart-button";
 import ProductTabs from "./_components/product-tabs";
+import SimilarProducts from "./_components/similar-products";
 
 export async function generateStaticParams() {
   const products = await prisma.product.findMany({ select: { slug: true } });
@@ -21,12 +21,6 @@ export default async function ProductPage({ params }: Props) {
 
   const product = await prisma.product.findUnique({ where: { slug } });
   if (!product) notFound();
-
-  const related = await prisma.product.findMany({
-    where: { category: product.category, slug: { not: slug } },
-    take: 4,
-    orderBy: { id: "asc" },
-  });
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "3rem 2rem" }}>
@@ -94,50 +88,7 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Nos clients aiment aussi */}
-      {related.length > 0 && (
-        <section style={{ marginTop: "4rem" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
-              marginBottom: "1.5rem",
-            }}
-          >
-            <span
-              style={{
-                color: "var(--text-muted)",
-                fontSize: "0.6rem",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Nos clients aiment aussi
-            </span>
-            <span
-              style={{
-                flex: 1,
-                height: "1px",
-                background: "linear-gradient(to right, rgba(123,47,255,0.4), transparent)",
-              }}
-            />
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "1rem",
-            }}
-          >
-            {related.map(p => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        </section>
-      )}
+      <SimilarProducts slug={slug} />
     </div>
   );
 }
