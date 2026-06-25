@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import ProductCard from "./_components/product-card";
+import SponsoredProducts from "./_components/sponsored-products";
 import styles from "./styles/home.module.css";
 
 type Props = {
@@ -60,6 +62,10 @@ export default async function Home({ searchParams }: Props) {
             </div>
           ))}
         </div>
+
+        <Suspense fallback={null}>
+          <SponsoredProducts />
+        </Suspense>
       </div>
     </>
   );

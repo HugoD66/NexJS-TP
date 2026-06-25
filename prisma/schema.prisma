@@ -16,4 +16,36 @@ model Product {
   specs       String
   price       Float
   image       String
+
+  cartItems   CartItem[]
+  similarTo   ProductSimilar[] @relation("SimilarFrom")
+  similarFrom ProductSimilar[] @relation("SimilarTo")
+}
+
+// Relation many-to-many auto-référentielle pour les produits similaires (curation manuelle)
+model ProductSimilar {
+  fromId Int
+  toId   Int
+  from   Product @relation("SimilarFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  to     Product @relation("SimilarTo",   fields: [toId],   references: [id], onDelete: Cascade)
+
+  @@id([fromId, toId])
+}
+
+model Cart {
+  id        String     @id
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+}
+
+model CartItem {
+  id        Int     @id @default(autoincrement())
+  cartId    String
+  productId Int
+  quantity  Int     @default(1)
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@unique([cartId, productId])
 }

@@ -1,0 +1,69 @@
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface) 0%,
+    var(--bg-elevated) 50%,
+    var(--bg-surface) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+  border-radius: 4px;
+}
+
+.wrapper {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 3rem var(--container-padding);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.image {
+  composes: skeleton;
+  aspect-ratio: 3 / 2;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.badge {
+  composes: skeleton;
+  height: 0.7rem;
+  width: 25%;
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  composes: skeleton;
+  height: 1.2rem;
+  width: 70%;
+}
+
+.price {
+  composes: skeleton;
+  height: 2rem;
+  width: 35%;
+}
+
+.tabs {
+  composes: skeleton;
+  height: 7rem;
+}
+
+.button {
+  composes: skeleton;
+  height: 3.5rem;
+}

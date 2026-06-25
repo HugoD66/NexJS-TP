@@ -1,4 +1,6 @@
-export default function Footer() {
+"use cache";
+
+export default async function Footer() {
   return (
     <footer
       style={{

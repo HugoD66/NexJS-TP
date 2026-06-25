@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useCart } from "@/app/_context/cart-context";
+import { useRouter } from "next/navigation";
 
 export default function AddToCartButton({ productId }: { productId: number }) {
-  const { addToCart } = useCart();
+  const router = useRouter();
   const [added, setAdded] = useState(false);
 
   useEffect(() => {
@@ -13,9 +13,14 @@ export default function AddToCartButton({ productId }: { productId: number }) {
     return () => clearTimeout(timer);
   }, [added]);
 
-  function handleClick() {
-    addToCart(productId);
+  async function handleClick() {
+    await fetch("/api/cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId }),
+    });
     setAdded(true);
+    router.refresh();
   }
 
   return (
