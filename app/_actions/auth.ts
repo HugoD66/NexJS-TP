@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { hashPassword, verifyPassword, createSession } from "@/lib/auth";
+import { hashPassword, verifyPassword, createSession, deleteSession } from "@/lib/auth";
 
 export type AuthState = {
   errors?: {
@@ -68,5 +68,10 @@ export async function login(
   }
 
   await createSession(user.id, user.role);
+  redirect("/");
+}
+
+export async function signout() {
+  await deleteSession();
   redirect("/");
 }

@@ -3,6 +3,98 @@ import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "./breadcrumb";
 import CartSummary from "./cart-summary";
+import { getSession } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { signout } from "@/app/_actions/auth";
+
+function getInitials(name: string) {
+  return name
+    .trim()
+    .split(/\s+/)
+    .map((w) => w[0].toUpperCase())
+    .slice(0, 3)
+    .join("");
+}
+
+async function NavAuth() {
+  const session = await getSession();
+  if (!session) {
+    return (
+      <>
+        <li>
+          <Link href="/login" style={navLinkStyle}>
+            Connexion
+          </Link>
+        </li>
+        <li>
+          <Link href="/register" style={{ ...navLinkStyle, color: "var(--neon-blue)" }}>
+            Inscription
+          </Link>
+        </li>
+      </>
+    );
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: { name: true, role: true },
+  });
+
+  if (!user) return null;
+
+  const initials = getInitials(user.name);
+
+  return (
+    <>
+      {user.role === "admin" && (
+        <li>
+          <Link href="/admin/products" style={{ ...navLinkStyle, color: "var(--neon-pink)" }}>
+            ADMIN
+          </Link>
+        </li>
+      )}
+      <li style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        {/* Trigramme */}
+        <span
+          title={user.name}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            background: "var(--arcade-purple)",
+            color: "#fff",
+            fontSize: "0.65rem",
+            fontFamily: "var(--font-press-start), monospace",
+            boxShadow: "var(--glow-purple)",
+            flexShrink: 0,
+          }}
+        >
+          {initials}
+        </span>
+        {/* Signout */}
+        <form action={signout}>
+          <button
+            type="submit"
+            style={{
+              background: "none",
+              border: "none",
+              color: "var(--text-muted)",
+              fontSize: "1rem",
+              fontFamily: "var(--font-vt323), monospace",
+              cursor: "pointer",
+              padding: 0,
+            }}
+          >
+            Déconnexion
+          </button>
+        </form>
+      </li>
+    </>
+  );
+}
 
 export default function Navbar() {
   return (
@@ -87,11 +179,21 @@ export default function Navbar() {
         >
           <li>
             <Suspense fallback={<span style={{ fontSize: "1.1rem" }}>🛒</span>}>
-            <CartSummary />
-          </Suspense>
+              <CartSummary />
+            </Suspense>
           </li>
+          <Suspense fallback={<li style={{ width: "80px" }} />}>
+            <NavAuth />
+          </Suspense>
         </ul>
       </nav>
     </header>
   );
 }
+
+const navLinkStyle: React.CSSProperties = {
+  color: "var(--text-primary)",
+  textDecoration: "none",
+  fontSize: "1rem",
+  fontFamily: "var(--font-vt323), monospace",
+};
