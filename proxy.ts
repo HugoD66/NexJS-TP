@@ -18,15 +18,39 @@ async function getSessionFromRequest(request: NextRequest) {
 }
 
 export async function proxy(request: NextRequest) {
-  const session = await getSessionFromRequest(request);
+  const { pathname, searchParams } = request.nextUrl;
 
-  if (!session || session.role !== "admin") {
-    return NextResponse.redirect(new URL("/", request.url));
+  // ── Protection admin ──────────────────────────────────────────────────────
+  if (pathname.startsWith("/admin")) {
+    const session = await getSessionFromRequest(request);
+    if (!session || session.role !== "admin") {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+    return NextResponse.next();
   }
 
-  return NextResponse.next();
+  // ── A/B testing prefetch ──────────────────────────────────────────────────
+  const response = NextResponse.next();
+
+  // Forçage via query param (?ab_prefetch=A ou ?ab_prefetch=B)
+  const forced = searchParams.get("ab_prefetch");
+  if (forced === "A" || forced === "B") {
+    response.cookies.set("ab_prefetch", forced, { path: "/", sameSite: "lax" });
+    return response;
+  }
+
+  // Tirage aléatoire si le cookie n'existe pas encore
+  if (!request.cookies.get("ab_prefetch")) {
+    const group = Math.random() < 0.5 ? "A" : "B";
+    response.cookies.set("ab_prefetch", group, { path: "/", sameSite: "lax" });
+  }
+
+  return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.png$).*)",
+  ],
 };
