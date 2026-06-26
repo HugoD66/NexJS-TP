@@ -1,6 +1,9 @@
+import Link from "next/link";
+import { unstable_noStore as noStore } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminProductsPage() {
+  noStore();
   const products = await prisma.product.findMany({ orderBy: { id: "asc" } });
 
   const th: React.CSSProperties = {
@@ -38,6 +41,7 @@ export default async function AdminProductsPage() {
               <th style={th}>CATÉGORIE</th>
               <th style={th}>PRIX</th>
               <th style={th}>SLUG</th>
+              <th style={th}></th>
             </tr>
           </thead>
           <tbody>
@@ -54,6 +58,19 @@ export default async function AdminProductsPage() {
                 </td>
                 <td style={{ ...td, color: "#555", fontFamily: "monospace", fontSize: "0.7rem" }}>
                   {p.slug}
+                </td>
+                <td style={{ ...td, textAlign: "right" }}>
+                  <Link
+                    href={`/admin/products/${p.id}/edit`}
+                    style={{
+                      color: "#ff3c3c",
+                      fontSize: "0.6rem",
+                      letterSpacing: "0.1em",
+                      textDecoration: "none",
+                    }}
+                  >
+                    MODIFIER →
+                  </Link>
                 </td>
               </tr>
             ))}
