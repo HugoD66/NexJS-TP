@@ -162,7 +162,9 @@ export default function Navbar() {
             }}
           />
 
-          <Breadcrumb />
+          <Suspense fallback={null}>
+            <Breadcrumb />
+          </Suspense>
         </div>
 
         {/* Droite : liens + panier */}

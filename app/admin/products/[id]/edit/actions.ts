@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 
@@ -36,9 +36,9 @@ export async function updateProduct(
     data: result.data,
   });
 
+  revalidateTag("products", "max");
   revalidatePath("/admin/products");
   revalidatePath(`/products/${result.data.slug}`);
-  revalidatePath("/");
 
   redirect("/admin/products");
 }

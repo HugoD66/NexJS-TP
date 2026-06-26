@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { getProducts } from "@/lib/queries";
 import ProductCard from "./_components/product-card";
 import SponsoredProducts from "./_components/sponsored-products";
 import styles from "./styles/home.module.css";
@@ -12,7 +12,7 @@ type Props = {
 export default async function Home({ searchParams }: Props) {
   const { category } = await searchParams;
 
-  const allProducts = await prisma.product.findMany({ orderBy: { id: "asc" } });
+  const allProducts = await getProducts();
 
   const counts = {
     Console:    allProducts.filter(p => p.category === "Console").length,
