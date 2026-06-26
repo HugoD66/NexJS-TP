@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { hashPassword, createSession } from "@/lib/auth";
+import { hashPassword, verifyPassword, createSession } from "@/lib/auth";
 
 export type AuthState = {
   errors?: {
@@ -41,6 +41,31 @@ export async function register(
   const user = await prisma.user.create({
     data: { name: name.trim(), email, password: hashed },
   });
+
+  await createSession(user.id, user.role);
+  redirect("/");
+}
+
+export async function login(
+  _prevState: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  const errors: AuthState["errors"] = {};
+
+  if (!email || !email.includes("@"))
+    errors.email = ["Adresse e-mail invalide."];
+  if (!password || password.length < 1)
+    errors.password = ["Mot de passe requis."];
+
+  if (Object.keys(errors).length > 0) return { errors };
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user || !(await verifyPassword(password, user.password))) {
+    return { errors: { global: ["E-mail ou mot de passe incorrect."] } };
+  }
 
   await createSession(user.id, user.role);
   redirect("/");
