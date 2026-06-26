@@ -1,12 +1,20 @@
 "use client";
 
+import { useActionState } from "react";
 import type { Product } from "@/lib/generated/prisma/client";
+import { updateProduct, type UpdateProductState } from "../actions";
 
 type Props = { product: Product };
 
+const initialState: UpdateProductState = {};
+
 export default function ProductEditForm({ product }: Props) {
+  const updateProductWithId = updateProduct.bind(null, product.id);
+  const [state, action, isPending] = useActionState(updateProductWithId, initialState);
+
   return (
     <form
+      action={action}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -17,17 +25,17 @@ export default function ProductEditForm({ product }: Props) {
         padding: "2rem",
       }}
     >
-      <Field label="NOM" name="name" defaultValue={product.name} />
-      <Field label="CATÉGORIE" name="category" defaultValue={product.category} />
-      <Field label="PRIX (€)" name="price" type="number" defaultValue={String(product.price)} />
-      <Field label="SLUG" name="slug" defaultValue={product.slug} />
-      <Field label="IMAGE" name="image" defaultValue={product.image} />
-      <Field label="DESCRIPTION" name="description" defaultValue={product.description} textarea />
-      <Field label="SPECS" name="specs" defaultValue={product.specs} textarea />
+      <Field label="NOM" name="name" defaultValue={product.name} errors={state.errors?.name} />
+      <Field label="CATÉGORIE" name="category" defaultValue={product.category} errors={state.errors?.category} />
+      <Field label="PRIX (€)" name="price" type="number" defaultValue={String(product.price)} errors={state.errors?.price} />
+      <Field label="SLUG" name="slug" defaultValue={product.slug} errors={state.errors?.slug} />
+      <Field label="IMAGE" name="image" defaultValue={product.image} errors={state.errors?.image} />
+      <Field label="DESCRIPTION" name="description" defaultValue={product.description} textarea errors={state.errors?.description} />
+      <Field label="SPECS" name="specs" defaultValue={product.specs} textarea errors={state.errors?.specs} />
 
       <div style={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
-        <button type="submit" style={submitStyle}>
-          ENREGISTRER
+        <button type="submit" disabled={isPending} style={submitStyle(isPending)}>
+          {isPending ? "ENREGISTREMENT…" : "ENREGISTRER"}
         </button>
       </div>
     </form>
@@ -40,9 +48,10 @@ type FieldProps = {
   defaultValue: string;
   type?: string;
   textarea?: boolean;
+  errors?: string[];
 };
 
-function Field({ label, name, defaultValue, type = "text", textarea = false }: FieldProps) {
+function Field({ label, name, defaultValue, type = "text", textarea = false, errors }: FieldProps) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
       <label
@@ -57,7 +66,7 @@ function Field({ label, name, defaultValue, type = "text", textarea = false }: F
           name={name}
           defaultValue={defaultValue}
           rows={4}
-          style={{ ...inputStyle, resize: "vertical" }}
+          style={{ ...inputStyle, ...(errors ? errorBorder : {}) }}
         />
       ) : (
         <input
@@ -66,8 +75,13 @@ function Field({ label, name, defaultValue, type = "text", textarea = false }: F
           type={type}
           defaultValue={defaultValue}
           step={type === "number" ? "0.01" : undefined}
-          style={inputStyle}
+          style={{ ...inputStyle, ...(errors ? errorBorder : {}) }}
         />
+      )}
+      {errors && (
+        <span style={{ color: "#ff3c3c", fontSize: "0.65rem", letterSpacing: "0.05em" }}>
+          {errors[0]}
+        </span>
       )}
     </div>
   );
@@ -86,15 +100,20 @@ const inputStyle: React.CSSProperties = {
   boxSizing: "border-box",
 };
 
-const submitStyle: React.CSSProperties = {
+const errorBorder: React.CSSProperties = {
+  border: "1px solid rgba(255, 60, 60, 0.6)",
+};
+
+const submitStyle = (isPending: boolean): React.CSSProperties => ({
   padding: "0.65rem 1.5rem",
-  background: "#ff3c3c",
+  background: isPending ? "rgba(255,60,60,0.4)" : "#ff3c3c",
   color: "#fff",
   border: "none",
   borderRadius: "3px",
   fontSize: "0.6rem",
   letterSpacing: "0.12em",
   fontFamily: "monospace",
-  cursor: "pointer",
-  boxShadow: "0 0 10px rgba(255,60,60,0.4)",
-};
+  cursor: isPending ? "not-allowed" : "pointer",
+  boxShadow: isPending ? "none" : "0 0 10px rgba(255,60,60,0.4)",
+  transition: "all 0.2s",
+});
