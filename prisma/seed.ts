@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "../lib/generated/prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { hash } from "bcryptjs";
 import products from "../lib/products.json";
 
 const dbUrl = process.env.DATABASE_URL!.replace("file:", "");
@@ -69,6 +70,18 @@ async function main() {
   }
 
   console.log(`\n${products.length} produits et ${Object.values(SIMILAR).flat().length} liens similaires insérés.`);
+
+  console.log("\nCreating admin user...");
+  const hashedPassword = await hash("test@test.com", 12);
+  await prisma.user.create({
+    data: {
+      email: "test@test.com",
+      name: "test@test.com",
+      password: hashedPassword,
+      role: "admin",
+    },
+  });
+  console.log("  ✓ test@test.com (admin)");
 }
 
 main()
