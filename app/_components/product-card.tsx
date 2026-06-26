@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import type { Product } from "@/lib/generated/prisma/client";
 import { BLUR_PLACEHOLDER } from "@/lib/blur-placeholder";
 import styles from "@/app/styles/product-card.module.css";
+import PrefetchLink from "./prefetch-link";
 
 type Props = {
   product: Product;
@@ -12,14 +13,12 @@ type Props = {
 
 export default async function ProductCard({ product, featured = false }: Props) {
   const cookieStore = await cookies();
-  const shouldPrefetch = cookieStore.get("ab_prefetch")?.value !== "B";
+  const group = cookieStore.get("ab_prefetch")?.value;
+  const href = `/products/${product.slug}`;
+  const className = `${styles.card} ${featured ? styles.cardFeatured : ""}`;
 
-  return (
-    <Link
-      href={`/products/${product.slug}`}
-      prefetch={shouldPrefetch}
-      className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
-    >
+  const cardContent = (
+    <>
       <div className={`${styles.imageWrapper} ${featured ? styles.imageWrapperFeatured : ""}`}>
         <Image
           src={product.image}
@@ -53,6 +52,12 @@ export default async function ProductCard({ product, featured = false }: Props) 
           {product.price.toFixed(2)} €
         </p>
       </div>
-    </Link>
+    </>
   );
+
+  if (group === "B") {
+    return <PrefetchLink href={href} className={className}>{cardContent}</PrefetchLink>;
+  }
+
+  return <Link href={href} className={className}>{cardContent}</Link>;
 }
