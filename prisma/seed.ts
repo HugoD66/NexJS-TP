@@ -29,10 +29,13 @@ const SIMILAR: Record<string, string[]> = {
 async function main() {
   console.log("Seeding database...");
 
+  console.log("Clearing database...");
   await prisma.productSimilar.deleteMany();
   await prisma.cartItem.deleteMany();
   await prisma.cart.deleteMany();
   await prisma.product.deleteMany();
+  await prisma.user.deleteMany();
+  console.log("Database cleared.\n");
 
   for (const product of products) {
     await prisma.product.create({
