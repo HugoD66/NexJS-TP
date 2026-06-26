@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import type { Product } from "@/lib/generated/prisma/client";
 import { BLUR_PLACEHOLDER } from "@/lib/blur-placeholder";
 import styles from "@/app/styles/product-card.module.css";
@@ -9,10 +10,14 @@ type Props = {
   featured?: boolean;
 };
 
-export default function ProductCard({ product, featured = false }: Props) {
+export default async function ProductCard({ product, featured = false }: Props) {
+  const cookieStore = await cookies();
+  const shouldPrefetch = cookieStore.get("ab_prefetch")?.value !== "B";
+
   return (
     <Link
       href={`/products/${product.slug}`}
+      prefetch={shouldPrefetch}
       className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
     >
       <div className={`${styles.imageWrapper} ${featured ? styles.imageWrapperFeatured : ""}`}>
