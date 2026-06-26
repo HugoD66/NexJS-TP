@@ -33,9 +33,32 @@ export default function ProductEditForm({ product }: Props) {
       <Field label="DESCRIPTION" name="description" defaultValue={product.description} textarea errors={state.errors?.description} />
       <Field label="SPECS" name="specs" defaultValue={product.specs} textarea errors={state.errors?.specs} />
 
+      {state.globalError && (
+        <div style={{
+          padding: "0.75rem 1rem",
+          background: "rgba(255, 60, 60, 0.1)",
+          border: "1px solid rgba(255, 60, 60, 0.4)",
+          borderRadius: "3px",
+          color: "#ff3c3c",
+          fontSize: "0.7rem",
+          letterSpacing: "0.05em",
+        }}>
+          ⚠ {state.globalError}
+        </div>
+      )}
+
       <div style={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
         <button type="submit" disabled={isPending} style={submitStyle(isPending)}>
           {isPending ? "ENREGISTREMENT…" : "ENREGISTRER"}
+        </button>
+        <button
+          type="submit"
+          name="_trigger_error"
+          value="1"
+          disabled={isPending}
+          style={errorBtnStyle(isPending)}
+        >
+          TESTER ERREUR
         </button>
       </div>
     </form>
@@ -103,6 +126,19 @@ const inputStyle: React.CSSProperties = {
 const errorBorder: React.CSSProperties = {
   border: "1px solid rgba(255, 60, 60, 0.6)",
 };
+
+const errorBtnStyle = (isPending: boolean): React.CSSProperties => ({
+  padding: "0.65rem 1.5rem",
+  background: isPending ? "rgba(123,47,255,0.2)" : "transparent",
+  color: "var(--arcade-purple, #7b2fff)",
+  border: "1px solid var(--arcade-purple, #7b2fff)",
+  borderRadius: "3px",
+  fontSize: "0.6rem",
+  letterSpacing: "0.12em",
+  fontFamily: "monospace",
+  cursor: isPending ? "not-allowed" : "pointer",
+  transition: "all 0.2s",
+});
 
 const submitStyle = (isPending: boolean): React.CSSProperties => ({
   padding: "0.65rem 1.5rem",

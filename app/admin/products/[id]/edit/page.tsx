@@ -1,11 +1,13 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { unstable_noStore as noStore } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import ProductEditForm from "./_components/product-edit-form";
 
 type Props = { params: Promise<{ id: string }> };
 
 export default async function EditProductPage({ params }: Props) {
+  noStore();
   const { id } = await params;
   const product = await prisma.product.findUnique({ where: { id: Number(id) } });
 

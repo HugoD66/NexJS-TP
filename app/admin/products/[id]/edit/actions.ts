@@ -17,6 +17,7 @@ const productSchema = z.object({
 
 export type UpdateProductState = {
   errors?: Partial<Record<keyof z.infer<typeof productSchema>, string[]>>;
+  globalError?: string;
   success?: boolean;
 };
 
@@ -25,16 +26,25 @@ export async function updateProduct(
   _prevState: UpdateProductState,
   formData: FormData
 ): Promise<UpdateProductState> {
+  // Bouton "test erreur" : déclenche intentionnellement une erreur
+  if (formData.get("_trigger_error") === "1") {
+    return { globalError: "Erreur simulée : la mise à jour a échoué volontairement (test)." };
+  }
+
   const result = productSchema.safeParse(Object.fromEntries(formData));
 
   if (!result.success) {
     return { errors: result.error.flatten().fieldErrors };
   }
 
-  await prisma.product.update({
-    where: { id },
-    data: result.data,
-  });
+  try {
+    await prisma.product.update({
+      where: { id },
+      data: result.data,
+    });
+  } catch {
+    return { globalError: "Erreur base de données : la mise à jour a échoué. Réessayez." };
+  }
 
   revalidateTag("products", "max");
   revalidatePath("/admin/products");

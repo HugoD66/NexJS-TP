@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { unstable_noStore as noStore } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminProductsPage() {
+  noStore();
   const products = await prisma.product.findMany({ orderBy: { id: "asc" } });
 
   const th: React.CSSProperties = {
