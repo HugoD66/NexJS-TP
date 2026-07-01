@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Image from "next/image";
 import "./styles/globals.css";
 import Navbar from "./_components/navbar";
 import Footer from "./_components/footer";
 import WebVitals from "./_components/web-vitals";
+import SwRegister from "./_components/sw-register";
 
 const pressStart2P = localFont({
   src: "./fonts/PressStart2P.woff2",
@@ -24,6 +25,10 @@ export const metadata: Metadata = {
   description: "Boutique en ligne spécialisée dans le rétro gaming",
 };
 
+export const viewport: Viewport = {
+  themeColor: "#7B2FFF",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,6 +38,7 @@ export default function RootLayout({
     <html lang="fr" className="h-full">
       <body className={`min-h-full flex flex-col antialiased ${pressStart2P.variable} ${vt323.variable}`}>
         <WebVitals />
+        <SwRegister />
         <div style={{
           position: "fixed",
           top: "50%",
