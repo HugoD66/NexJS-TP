@@ -4,6 +4,7 @@ import Image from "next/image";
 import "./styles/globals.css";
 import Navbar from "./_components/navbar";
 import Footer from "./_components/footer";
+import WebVitals from "./_components/web-vitals";
 
 const pressStart2P = localFont({
   src: "./fonts/PressStart2P.woff2",
@@ -30,6 +31,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className="h-full">
       <body className={`min-h-full flex flex-col antialiased ${pressStart2P.variable} ${vt323.variable}`}>
+        <WebVitals />
         <div style={{
           position: "fixed",
           top: "50%",
