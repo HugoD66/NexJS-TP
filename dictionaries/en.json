@@ -1,0 +1,24 @@
+{
+  "nav": {
+    "home": "HOME",
+    "login": "Login",
+    "register": "Sign up",
+    "admin": "ADMIN",
+    "logout": "Log out"
+  },
+  "footer": {
+    "author": "Made by Hugo Dessauw",
+    "project": "Project built as part of a Next.js course"
+  },
+  "home": {
+    "tagline": "Your retro gaming destination since 1983",
+    "all": "All",
+    "consoles": "Consoles",
+    "games": "Games",
+    "accessories": "Accessories"
+  },
+  "products": {
+    "title": "CATALOG",
+    "count": "{count} items available"
+  }
+}

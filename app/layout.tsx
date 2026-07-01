@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import Image from "next/image";
@@ -58,9 +59,13 @@ export default function RootLayout({
           />
         </div>
         <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-          <Navbar />
+          <Suspense fallback={<div style={{ height: "65px", background: "rgba(13, 13, 26, 0.85)" }} />}>
+            <Navbar />
+          </Suspense>
           <main className="flex-1" style={{ paddingBottom: "4rem" }}>{children}</main>
-          <Footer />
+          <Suspense fallback={null}>
+            <Footer />
+          </Suspense>
         </div>
       </body>
     </html>

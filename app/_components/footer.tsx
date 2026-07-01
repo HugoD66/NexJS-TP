@@ -1,6 +1,14 @@
-"use cache";
+import { getLocale, getDictionary, type Locale } from "@/lib/i18n";
 
 export default async function Footer() {
+  const locale = await getLocale();
+  return <CachedFooter locale={locale} />;
+}
+
+async function CachedFooter({ locale }: { locale: Locale }) {
+  "use cache";
+  const dict = getDictionary(locale);
+
   return (
     <footer
       style={{
@@ -22,8 +30,8 @@ export default async function Footer() {
       }}
     >
       <span>© {new Date().getFullYear()} PIXEL PALACE — Rétro Gaming</span>
-      <span>Créé par Hugo Dessauw</span>
-      <span>Projet réalisé dans le cadre d&apos;un TP Next.js</span>
+      <span>{dict.footer.author}</span>
+      <span>{dict.footer.project}</span>
     </footer>
   );
 }

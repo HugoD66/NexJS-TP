@@ -4,9 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "@/app/styles/breadcrumb.module.css";
 
-function buildCrumbs(pathname: string) {
+function buildCrumbs(pathname: string, homeLabel: string) {
   const segments = pathname.split("/").filter(Boolean);
-  const crumbs = [{ label: "HOME", href: "/" }];
+  const crumbs = [{ label: homeLabel, href: "/" }];
 
   let path = "";
   for (let i = 0; i < segments.length; i++) {
@@ -22,10 +22,10 @@ function buildCrumbs(pathname: string) {
   return crumbs;
 }
 
-export default function Breadcrumb() {
+export default function Breadcrumb({ homeLabel = "HOME" }: { homeLabel?: string }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const crumbs = buildCrumbs(pathname);
+  const crumbs = buildCrumbs(pathname, homeLabel);
 
   return (
     <nav className={styles.wrapper}>
