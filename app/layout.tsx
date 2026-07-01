@@ -19,7 +19,8 @@ const vt323 = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Pixel Palace",
+  metadataBase: new URL("http://localhost:3000"),
+  title: { default: "Pixel Palace", template: "%s | Pixel Palace" },
   description: "Boutique en ligne spécialisée dans le rétro gaming",
 };
 
