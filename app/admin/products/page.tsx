@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { unstable_noStore as noStore } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { formatPrice } from "@/lib/product-rules";
 
 export default async function AdminProductsPage() {
   noStore();
@@ -54,7 +55,7 @@ export default async function AdminProductsPage() {
                 <td style={{ ...td, color: "#e0e0e0" }}>{p.name}</td>
                 <td style={{ ...td, color: "#888" }}>{p.category}</td>
                 <td style={{ ...td, color: "#ff3c3c", fontWeight: "bold" }}>
-                  {p.price.toFixed(2)} €
+                  {formatPrice(p.price)}
                 </td>
                 <td style={{ ...td, color: "#555", fontFamily: "monospace", fontSize: "0.7rem" }}>
                   {p.slug}

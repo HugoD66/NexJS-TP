@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { BLUR_PLACEHOLDER } from "@/lib/blur-placeholder";
+import { formatPrice } from "@/lib/product-rules";
 import AddToCartButton from "@/app/_components/add-to-cart-button";
 import ProductTabs from "./product-tabs";
 
@@ -64,7 +65,7 @@ export default async function ProductDetail({ slug }: { slug: string }) {
         </div>
 
         <p style={{ color: "var(--neon-pink)", fontSize: "2rem", fontWeight: "bold" }}>
-          {product.price.toFixed(2)} €
+          {formatPrice(product.price)}
         </p>
 
         <Suspense fallback={<div style={{ height: "7rem" }} />}>

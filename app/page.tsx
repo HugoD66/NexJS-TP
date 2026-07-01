@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { getProducts } from "@/lib/queries";
+import { getLocale, getDictionary } from "@/lib/i18n";
 import ProductCard from "./_components/product-card";
 import SponsoredProducts from "./_components/sponsored-products";
 import styles from "./styles/home.module.css";
@@ -11,6 +12,9 @@ type Props = {
 
 export default async function Home({ searchParams }: Props) {
   const { category } = await searchParams;
+
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
 
   const allProducts = await getProducts();
 
@@ -31,24 +35,24 @@ export default async function Home({ searchParams }: Props) {
       {/* HERO */}
       <section className={styles.hero}>
         <span className={styles.glitch}>PIXEL PALACE</span>
-        <p className={styles.tagline}>Votre destination rétro gaming depuis 1983</p>
+        <p className={styles.tagline}>{dict.home.tagline}</p>
 
         <div className={styles.stats}>
           <Link href="/" className={`${styles.stat} ${!isFiltered ? styles.statActive : ""}`}>
             <span className={styles.statValue}>{allProducts.length}</span>
-            <span className={styles.statLabel}>Tout</span>
+            <span className={styles.statLabel}>{dict.home.all}</span>
           </Link>
           <Link href="?category=Console" className={`${styles.stat} ${category === "Console" ? styles.statActive : ""}`}>
             <span className={styles.statValue}>{counts.Console}</span>
-            <span className={styles.statLabel}>Consoles</span>
+            <span className={styles.statLabel}>{dict.home.consoles}</span>
           </Link>
           <Link href="?category=Jeu" className={`${styles.stat} ${category === "Jeu" ? styles.statActive : ""}`}>
             <span className={styles.statValue}>{counts.Jeu}</span>
-            <span className={styles.statLabel}>Jeux</span>
+            <span className={styles.statLabel}>{dict.home.games}</span>
           </Link>
           <Link href="?category=Accessoire" className={`${styles.stat} ${category === "Accessoire" ? styles.statActive : ""}`}>
             <span className={styles.statValue}>{counts.Accessoire}</span>
-            <span className={styles.statLabel}>Accessoires</span>
+            <span className={styles.statLabel}>{dict.home.accessories}</span>
           </Link>
         </div>
       </section>

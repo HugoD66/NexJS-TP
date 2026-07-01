@@ -1,7 +1,10 @@
 import { prisma } from "@/lib/prisma";
+import { getLocale, getDictionary } from "@/lib/i18n";
 import ProductCard from "@/app/_components/product-card";
 
 export default async function ProductsPage() {
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
   const products = await prisma.product.findMany({ orderBy: { id: "asc" } });
 
   return (
@@ -15,10 +18,10 @@ export default async function ProductsPage() {
           textShadow: "0 0 8px var(--arcade-purple)",
         }}
       >
-        CATALOGUE
+        {dict.products.title}
       </h1>
       <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", marginBottom: "3rem" }}>
-        {products.length} articles disponibles
+        {dict.products.count.replace("{count}", String(products.length))}
       </p>
 
       <div

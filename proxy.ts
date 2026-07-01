@@ -45,6 +45,13 @@ export async function proxy(request: NextRequest) {
     response.cookies.set("ab_prefetch", group, { path: "/", sameSite: "lax" });
   }
 
+  // ── i18n : bootstrap de la locale depuis Accept-Language ───────────────────
+  if (!request.cookies.get("NEXT_LOCALE")) {
+    const acceptLanguage = request.headers.get("accept-language") ?? "";
+    const locale = acceptLanguage.toLowerCase().startsWith("en") ? "en" : "fr";
+    response.cookies.set("NEXT_LOCALE", locale, { path: "/", sameSite: "lax" });
+  }
+
   return response;
 }
 

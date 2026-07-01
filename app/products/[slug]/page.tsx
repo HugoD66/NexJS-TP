@@ -1,4 +1,6 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import ProductDetail from "./_components/product-detail";
 import ProductDetailSkeleton from "./_components/product-detail-skeleton";
@@ -14,6 +16,24 @@ export async function generateStaticParams() {
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await prisma.product.findUnique({ where: { slug } });
+  if (!product) notFound();
+
+  return {
+    title: product.name,
+    description: product.description,
+    keywords: [product.category, product.name],
+    robots: { index: true, follow: true },
+    openGraph: {
+      title: product.name,
+      description: product.description,
+      images: [{ url: product.image }],
+    },
+  };
+}
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;

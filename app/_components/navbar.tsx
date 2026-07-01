@@ -3,9 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "./breadcrumb";
 import CartSummary from "./cart-summary";
+import LanguageSwitcher from "./language-switcher";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { signout } from "@/app/_actions/auth";
+import { getLocale, getDictionary } from "@/lib/i18n";
 
 function getInitials(name: string) {
   return name
@@ -16,19 +18,19 @@ function getInitials(name: string) {
     .join("");
 }
 
-async function NavAuth() {
+async function NavAuth({ dict }: { dict: ReturnType<typeof getDictionary> }) {
   const session = await getSession();
   if (!session) {
     return (
       <>
         <li>
           <Link href="/login" style={navLinkStyle}>
-            Connexion
+            {dict.nav.login}
           </Link>
         </li>
         <li>
           <Link href="/register" style={{ ...navLinkStyle, color: "var(--neon-blue)" }}>
-            Inscription
+            {dict.nav.register}
           </Link>
         </li>
       </>
@@ -49,7 +51,7 @@ async function NavAuth() {
       {user.role === "admin" && (
         <li>
           <Link href="/admin/products" style={{ ...navLinkStyle, color: "var(--neon-pink)" }}>
-            ADMIN
+            {dict.nav.admin}
           </Link>
         </li>
       )}
@@ -88,7 +90,7 @@ async function NavAuth() {
               padding: 0,
             }}
           >
-            Déconnexion
+            {dict.nav.logout}
           </button>
         </form>
       </li>
@@ -96,7 +98,10 @@ async function NavAuth() {
   );
 }
 
-export default function Navbar() {
+export default async function Navbar() {
+  const locale = await getLocale();
+  const dict = getDictionary(locale);
+
   return (
     <header
       style={{
@@ -163,7 +168,7 @@ export default function Navbar() {
           />
 
           <Suspense fallback={null}>
-            <Breadcrumb />
+            <Breadcrumb homeLabel={dict.nav.home} />
           </Suspense>
         </div>
 
@@ -180,12 +185,15 @@ export default function Navbar() {
           }}
         >
           <li>
+            <LanguageSwitcher locale={locale} />
+          </li>
+          <li>
             <Suspense fallback={<span style={{ fontSize: "1.1rem" }}>🛒</span>}>
               <CartSummary />
             </Suspense>
           </li>
           <Suspense fallback={<li style={{ width: "80px" }} />}>
-            <NavAuth />
+            <NavAuth dict={dict} />
           </Suspense>
         </ul>
       </nav>
