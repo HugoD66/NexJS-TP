@@ -2,7 +2,8 @@
 
 import { useActionState } from "react";
 import type { Product } from "@/lib/generated/prisma/client";
-import { updateProduct, type UpdateProductState } from "../actions";
+import { updateProduct } from "../actions";
+import type { UpdateProductState } from "../schema";
 
 type Props = { product: Product };
 

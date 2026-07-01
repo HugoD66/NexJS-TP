@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import type { Product } from "@/lib/generated/prisma/client";
 import { BLUR_PLACEHOLDER } from "@/lib/blur-placeholder";
+import { formatPrice } from "@/lib/product-rules";
 import styles from "@/app/styles/product-card.module.css";
 import PrefetchLink from "./prefetch-link";
 
@@ -49,7 +50,7 @@ export default async function ProductCard({ product, featured = false }: Props) 
           </p>
         )}
         <p className={`${styles.price} ${featured ? styles.priceFeatured : ""}`}>
-          {product.price.toFixed(2)} €
+          {formatPrice(product.price)}
         </p>
       </div>
     </>
